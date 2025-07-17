@@ -4,7 +4,10 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import express from "express";
 
+// utils
 import connectDB from "./config/db.js";
+import userRoutes from "./routes/userRoutes.js";
+import errorHandler from "./middlewares/errorMiddleware.js";
 
 // Load environment variables
 dotenv.config();
@@ -21,7 +24,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+//  other middlewares
+app.use(errorHandler);
+
 // Routes
+
+app.use("/api/users", userRoutes);
+
 app.get("/", (req, res) => {
   res.send("Hello flex-store");
 });
