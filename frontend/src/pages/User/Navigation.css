@@ -9,12 +9,12 @@
 }
 
 /* intially hide nav items */
-#nav-item-name {
+.nav-item-name {
   display: none;
   transition: opacity 0.2s ease-in-out;
 }
 
-#navigation-container:hover #nav-item-name {
+#navigation-container:hover .nav-item-name {
   display: block;
   opacity: 1;
 }

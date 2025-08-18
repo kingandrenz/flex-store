@@ -34,6 +34,7 @@ const createUser = asyncHandler(async (req, res) => {
     _id: newUser._id,
     username: newUser.username,
     email: newUser.email,
+    isAdmin: newUser.isAdmin,
   });
 });
 
@@ -69,6 +70,7 @@ const loginUser = asyncHandler(async (req, res) => {
     _id: existingUser._id,
     username: existingUser.username,
     email: existingUser.email,
+    isAdmin: existingUser.isAdmin,
   });
 });
 
@@ -95,6 +97,7 @@ const getCurrentUserProfile = asyncHandler(async (req, res) => {
       _id: user._id,
       username: user.username,
       email: user.email,
+      isAdmin: user.isAdmin,
     });
   } else {
     res.status(404);
