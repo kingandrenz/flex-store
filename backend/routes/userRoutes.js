@@ -7,6 +7,8 @@ import {
   loginUser,
   logoutCurrentUser,
   updateUserProfile,
+  getUserById,
+  updateUserById,
 } from "../controllers/userController.js";
 
 // middleware to handle authentication and authorization
@@ -29,6 +31,10 @@ router
   .put(authenticate, updateUserProfile);
 
 // ADMIN ROUTES
-router.delete("/:id", authenticate, authorizeAdmin, deleteUserById);
+router
+  .route("/:id")
+  .delete(authenticate, authorizeAdmin, deleteUserById)
+  .get(authenticate, authorizeAdmin, getUserById)
+  .put(authenticate, authorizeAdmin, updateUserById);
 
 export default router;

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import "./Navigation.css";
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {useLogoutMutation } from '../../redux/api/userApiSlice'; 
+import {useLogoutMutation } from '../../redux/api/usersApiSlice'; 
 
 import { logOut } from '../../redux/features/auth/authSlice';
 
@@ -167,12 +167,3 @@ function Navigation() {
 
 export default Navigation;
 
-
-            // <li>
-            //   <button
-            //     onClick={logoutHandler}
-            //     className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
-            //   >
-            //     Logout
-            //   </button>
-            // </li>
