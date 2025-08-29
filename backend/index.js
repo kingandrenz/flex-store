@@ -8,6 +8,7 @@ import express from "express";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 
 // Load environment variables
 dotenv.config();
@@ -30,6 +31,7 @@ app.use(errorHandler);
 // Routes
 
 app.use("/api/users", userRoutes);
+app.use("/api/category", categoryRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello flex-store");
