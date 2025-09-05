@@ -3,6 +3,7 @@ import { useCreateCategoryMutation, useDeleteCategoryMutation, useFetchCategorie
 import { useState } from "react";
 import CategoryForm from "../../components/CategoryForm";
 import Modal from '../../components/Modal';
+import AdminMenu from "./AdminMenu";
 
 const CategoryList = () => {
 
@@ -88,6 +89,7 @@ const CategoryList = () => {
   return (
     <div className="flex flex-col ml-[10rem] md:flex-row">
       {/* Admin menue */}
+      <AdminMenu />
       <div className="md:w-3/4 p-3">
         <div className="h-12">Manage Categories</div>
         <CategoryForm value={name} setValue={setName} handleSubmit={handleCreateCategory} />
