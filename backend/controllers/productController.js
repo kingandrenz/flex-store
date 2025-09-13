@@ -4,8 +4,16 @@ import Product from "../models/productModel.js";
 // @desc    Create a new product
 const addProduct = asyncHandler(async (req, res) => {
   try {
-    const { name, image, brand, category, description, price, countInStock } =
-      req.fields;
+    const {
+      name,
+      image,
+      brand,
+      category,
+      description,
+      price,
+      quantity,
+      countInStock,
+    } = req.fields;
 
     switch (true) {
       case !name:
@@ -20,8 +28,10 @@ const addProduct = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "Description is required" });
       case !price:
         return res.status(400).json({ message: "Price is required" });
+      case !quantity:
+        return res.status(400).json({ message: "Quantity  is required" });
       case !countInStock:
-        return res.status(400).json({ message: "Count in stock is required" });
+        return res.status(400).json({ message: "CountIn stock is required" });
     }
 
     const product = new Product({ ...req.fields });
@@ -37,8 +47,16 @@ const addProduct = asyncHandler(async (req, res) => {
 const updateProductDetails = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, image, brand, category, description, price, countInStock } =
-      req.fields;
+    const {
+      name,
+      image,
+      brand,
+      category,
+      description,
+      price,
+      quantity,
+      countInStock,
+    } = req.fields;
 
     switch (true) {
       case !name:
@@ -53,6 +71,8 @@ const updateProductDetails = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "Description is required" });
       case !price:
         return res.status(400).json({ message: "Price is required" });
+      case !quantity:
+        return res.status(400).json({ message: "Quantity is required" });
       case !countInStock:
         return res.status(400).json({ message: "Count in stock is required" });
     }
