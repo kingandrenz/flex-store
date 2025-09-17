@@ -25,7 +25,7 @@ function Ratings({value, text, color}) {
 
       {"  "}
 
-      <span className={`rating-text ml-{2rem} text-${color}`} > {text && text}</span>
+      <span className={`rating-text ml-{2rem} text-${color}`} > {text && (text)}</span>
     </div>
   )
 }

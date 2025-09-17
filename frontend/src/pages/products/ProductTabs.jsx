@@ -83,16 +83,15 @@ function ProductTabs({
               <div>
                 {
                   product.reviews.map((review) => (
-                    <div key={review._id} className='bg-[#1a1a1a] p-4 rounded-lg xl:ml-[2rem] 
+                    <div key={review._id} className='bg-[#1A1A1A] p-4 rounded-lg xl:ml-[2rem] 
                 sm:ml-[0rem] xl:w-[50rem] sm:w-[24-rem] mb-5'>
                   <div className="flex justify-between">
                     <strong className='text-[#B0B0B0]'>{review.name}</strong>
                     <p className='text-[#B0B0B0]'>{review.createdAt.substring(0, 10)}</p>
                   </div>
 
-                  <p className="my-4">
-                    <Ratings value={review.rating} />
-                  </p>
+                  <p className="my-4 text-[#B0B0B0]">{review.comment}</p>
+                  <Ratings value={review.rating} />
                 </div>
                   ))
                 }

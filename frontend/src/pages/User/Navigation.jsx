@@ -9,11 +9,15 @@ import {useLogoutMutation } from '../../redux/api/usersApiSlice';
 import { logOut } from '../../redux/features/auth/authSlice';
 import FavouriteCount from '../products/FavouriteCount';
 
+
 function Navigation() {
   const { userInfo } = useSelector((state) => state.auth);
 
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [ShowSideBar, setShowSideBar] = useState(false);
+
+  const {cartItems} = useSelector((state)=> state.cart);
+  
 
   const toggleDropDown = () => {
     setDropDownOpen(!dropDownOpen);
@@ -58,9 +62,18 @@ function Navigation() {
           <AiOutlineShopping size={26} className="mr-2 mt-[3rem]" />
           <span className="nav-item-name hidden mt-[3rem] uppercase">shop</span>{" "}
         </Link>
-        <Link to="/cart" className="flex items-center transition-transform transform hover:translate-x-2">
+        <Link to="/cart" className="flex items-center transition-transform transform hover:translate-x-2 relative">
           <AiOutlineShoppingCart size={26} className="mr-2 mt-[3rem]" />
           <span className="nav-item-name hidden mt-[3rem] uppercase">cart</span>{" "}
+          <div className="absolute top-9">
+            {cartItems.length > 0 && (
+              <span>
+                <span className="px-1 py-0 text-xs text-white bg-red-500 rounded-full">
+                  {cartItems.reduce((acc, c)=> acc + c.qty, 0)}
+                </span>
+              </span>
+            )}
+          </div>
         </Link>
         <Link to="/favorite" className="flex items-center transition-transform transform hover:translate-x-2">
           <FaHeart size={26} className="mr-2 mt-[3rem]" />

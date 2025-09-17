@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useCreateProductMutation, useGetProductDetailsQuery } from "../../redux/api/productApiSlice";
-import { useSelector } from "react-redux";
+import { useCreateReviewMutation, useGetProductDetailsQuery } from "../../redux/api/productApiSlice";
+import { useDispatch, useSelector } from "react-redux";
 import CircleLoader from "../../components/CircleLoader";
 import Message from "../../components/Message";
 import HeartIcon from "./HeartIcon";
@@ -10,19 +10,28 @@ import moment from 'moment';
 import Ratings from "./Ratings";
 import ProductTabs from "./ProductTabs";
 import { toast } from "react-toastify";
+import {addToCart} from '../../redux/features/cart/cartSlice';
 
 function ProductDetails() {
     const {id:productId} = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [qty, setQty] = useState(1);
-    const [rating, setRating] = useState('');
+    const [rating, setRating] = useState(0);
     const[comment, setComment] = useState('');
 
     const {data: product, isLoading, refetch, isError: error} =useGetProductDetailsQuery(productId);
-
+  
+    
     const {userInfo} = useSelector(state => state.auth);
 
-    const [createReview, {isLoading: loadingProductReveiw}] = useCreateProductMutation();
+    const [createReview, {isLoading: loadingProductReveiw}] = useCreateReviewMutation();
+
+
+    const addToCartHandler = () => {
+      dispatch(addToCart({...product, qty}));
+      navigate('/cart');
+    }
 
     const submitHandler = async (e) => {
       e.preventDefault();
@@ -95,7 +104,7 @@ function ProductDetails() {
                             </h1>
                             <h1 className="flex items-center mb-6">
                               <FaStar className="mr-2 texr-black" /> In stock: {" "}
-                              {product.countInstock}
+                              {product?.countInStock}
                             </h1>
                           </div>
                         </div>
@@ -104,13 +113,13 @@ function ProductDetails() {
                           {/* Ratings */}
                           <Ratings value={product.rating} text={`${product.numReviews} reviews`} />
 
-                          {product.countInstock > 0 && (
+                          {product.countInStock > 0 && (
                             <div>
                               <select
                               value={qty} 
-                              onChange={(e)=> e.target.value}
+                              onChange={(e)=> setQty(e.target.value)}
                               className="p-2 w-[6rem] rounded-lg text-black" >
-                                {[...Array(product.countInstock).keys()].map((x)=> (
+                                {[...Array(product.countInStock).keys()].map((x)=> (
                                   <option key={x + 1} value={x + 1}>
                                     {x + 1}
                                   </option>
@@ -121,7 +130,7 @@ function ProductDetails() {
                         </div>
 
                         <div className="btn-container">
-                          <button /*onClick={addToCartHandler}*/ disabled={product.countInstock == 0}
+                          <button onClick={addToCartHandler} disabled={product.countInStock == 0}
                           className="bg-blue-600 text-white py-2 px-4 rounded-lg mt-4 md:mt-2">
                             Add To Cart
                           </button>

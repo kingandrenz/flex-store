@@ -1,9 +1,9 @@
-import Header from "./components/Header";
+import Header from "../components/Header";
 import { Link, useParams } from "react-router-dom";
-import { useGetProductsQuery } from "./redux/api/productApiSlice";
-import CircleLoader from "./components/CircleLoader";
-import Message from "./components/Message";
-import Product from "./pages/products/Product";
+import { useGetProductsQuery } from "../redux/api/productApiSlice";
+import CircleLoader from "../components/CircleLoader";
+import Message from "../components/Message";
+import Product from "./products/Product";
 
 function Home() {
     const {keyword} = useParams();
