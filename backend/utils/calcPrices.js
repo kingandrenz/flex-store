@@ -8,8 +8,11 @@ function calcPrices(orderItems) {
   const taxRate = 0.15;
   const taxPrice = (itemsPrice * taxRate).toFixed(2);
 
-  const totalPrice =
-    itemsPrice + shippingPrice + parseFloat(taxPrice).toFixed(2);
+  const totalPrice = (
+    itemsPrice +
+    shippingPrice +
+    parseFloat(taxPrice)
+  ).toFixed(2);
 
   return {
     itemsPrice: itemsPrice.toFixed(2),

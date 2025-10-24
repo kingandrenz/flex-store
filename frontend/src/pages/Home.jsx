@@ -8,8 +8,6 @@ import Product from "./products/Product";
 function Home() {
     const {keyword} = useParams();
     const {data, isLoading, isError} = useGetProductsQuery({keyword});
-    console.log("isError",{isError});
-    console.log(data);
     
     
     

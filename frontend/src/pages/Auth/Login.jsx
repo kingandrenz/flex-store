@@ -14,7 +14,7 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
-  const search = useLocation();
+  const {search} = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
   
@@ -31,7 +31,7 @@ function Login() {
       const userData = await login({ email, password }).unwrap();
       dispatch(setCredentials({...userData}));
       toast.success("Login successful");
-      navigate(from, { replace: true });
+      navigate(redirect);
     } catch (error) {
       toast.error(error?.data?.message);
     }
