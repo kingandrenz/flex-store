@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { saveShippingAddress } from '../../redux/features/cart/cartSlice';
+import { savePaymentMethod, saveShippingAddress } from '../../redux/features/cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import ProgressSteps from '../../components/ProgressSteps';
 
 function Shipping() {
   const cart = useSelector((state)=> state.cart)
@@ -17,6 +18,14 @@ function Shipping() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
+  const submitHandler = (e) => {
+    e.preventDefault()
+
+    dispatch(saveShippingAddress({address, city, postalCode, country}))
+    dispatch(savePaymentMethod(paymentMethod));
+    navigate("/placeorder")
+  }
+
   // payment
 
   useEffect(()=> {
@@ -26,8 +35,9 @@ function Shipping() {
   }, [navigate, saveShippingAddress])
   return (
     <div className='mx-auto container mt-10'>
+      <ProgressSteps step1 step2 />
       <div className="flex justify-around items-center flex-wrap mt-[10rem]">
-        <form className='w-[40rem]'>
+        <form onSubmit={submitHandler} className='w-[40rem]'>
           <h1 className="text-2xl font-semibold mb-4">Shipping</h1>
           <div className="mb-4">
             <label htmlFor="" className="block text-white mb-2">Address</label>

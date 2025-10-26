@@ -13,7 +13,7 @@ const createOrder = asyncHandler(async (req, res) => {
 
   const itemsFromDB = await Product.find({
     _id: { $in: orderItems.map((x) => x._id) },
-  });
+  }).select("name image price");
 
   const dbOrderItems = orderItems.map((itemFromClient) => {
     const matchingItemFromDb = itemsFromDB.find(
