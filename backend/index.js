@@ -3,6 +3,7 @@ import path from "path";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import express from "express";
+import cors from "cors";
 
 // utils
 import connectDB from "./config/db.js";
@@ -22,6 +23,20 @@ connectDB();
 
 // Create Express app
 const app = express();
+
+// Define the allowed origins ( frontend URLs)
+const allowedOrigins = [
+  'https://3flexstore.netlify.app', 
+  'http://localhost:3000',           
+  'http://localhost:5173'            
+];
+
+const corsOptions = {
+  origin: allowedOrigins,
+  credentials: true, // Allow cookies/headers/etc. to be sent with the request
+};
+
+app.use(cors(corsOptions)); 
 
 // Middleware
 app.use(express.json());
