@@ -1,4 +1,4 @@
-export const BASE_URL = "";
+export const BASE_URL = "https://limitless-reef-23010-b3f6eb0f08a9.herokuapp.com/";
 export const USERS_URL = "/api/users";
 export const CATEGORY_URL = "/api/category";
 export const PRODUCT_URL = "/api/products";
