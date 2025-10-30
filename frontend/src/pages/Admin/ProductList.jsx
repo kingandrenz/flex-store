@@ -10,10 +10,8 @@ import AdminMenu from "./AdminMenu";
 
 
 function ProductList() {
-    // New state to hold the actual file object for name display
     const [imageFile, setImageFile] = useState(null); 
     
-    // Existing states
     const [image, setImage] = useState("");
     const [name, setName] = useState('');
     const [description, setDescription] = useState("");
@@ -33,16 +31,20 @@ function ProductList() {
         e.preventDefault();
 
         try {
-            const productData = new FormData()
-            productData.append('image', image)
-            productData.append('name', name)
-            productData.append('description', description)
-            productData.append('price', price)
-            productData.append('category', category)
-            productData.append('quantity', quantity)
-            productData.append('brand', brand)
-            productData.append('countInStock', countInStock)
+            // CRITICAL FIX: Send a clean JSON object, not FormData.
+            // The 'image' state already holds the Cloudinary URL.
+            const productData = {
+                image, 
+                name,
+                description,
+                price,
+                category,
+                quantity,
+                brand,
+                countInStock,
+            };
             
+            // Redux Toolkit Query handles JSON serialization
             const {data} = await createProduct(productData);
             
             if (data.error) {
@@ -53,7 +55,8 @@ function ProductList() {
             }
         } catch (error) {
             console.error(error);
-            toast.error("Product creation failed! Try again")
+            // Updated error toast to handle the common structure of RTK Query errors
+            toast.error(error?.data?.message || "Product creation failed! Try again")
         }
     }
 
@@ -62,23 +65,21 @@ function ProductList() {
         const formData = new FormData()
         formData.append("image", file)
         
-        // Set the file object for displaying the name in the label
         setImageFile(file); 
 
         try {
             const res = await uploadProductImage(formData).unwrap()
             toast.success(res.message);
             
-            // Set the Cloudinary URL returned by the backend
             setImage(res.image); 
             setImageUrl(res.image);
             
-            // Fix: Reset the input value so the change event fires again if the same file is selected
+            // Fix: Reset the input value 
             e.target.value = null; 
         } catch (error) {
             toast.error(error?.data?.message || error.error);
-            setImageFile(null); // Clear file state on error
-            e.target.value = null; // Also reset on error
+            setImageFile(null); 
+            e.target.value = null;
         }
     }
 
@@ -98,7 +99,6 @@ function ProductList() {
                     <div className="mb-3">
                         <label className="border text-black px-4 block w-full text-center
                         rounded-lg cursor-pointer font-bold py-11">
-                            {/* Use imageFile state to show the selected file's name */}
                             {imageFile ? imageFile.name : "Upload Image"}
 
                             <input
@@ -106,7 +106,6 @@ function ProductList() {
                                 name="image"
                                 accept="image/*"
                                 onChange={uploadFileHandler}
-                                // Ensure input is hidden and styled by the label
                                 className="hidden" 
                             />
                         </label>
