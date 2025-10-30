@@ -1,26 +1,26 @@
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
+import path from "path";
 
-// 1. Configure Cloudinary using environment variables
+// Configure Cloudinary using environment variables
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// 2. Define the Cloudinary storage engine
+// Define the Cloudinary storage engine
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "flex-store-products", // Folder name in your Cloudinary account
+    folder: "flex-store-products",
     allowed_formats: ["jpeg", "png", "jpg", "webp"],
-    // Optional: set a dynamic public ID based on the original filename
     public_id: (req, file) => file.fieldname + "-" + Date.now(),
   },
 });
 
-// 3. Define the file filter (same logic as before)
+// Define the file filter
 const fileFilter = (req, file, cb) => {
   const allowedFileTypes = /\.(jpe?g|png|webp)$/i;
   const mimeTypes = /image\/(jpe?g|png|webp)/i;
@@ -35,7 +35,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// 4. Create the final multer upload instance
+// Create the final multer upload instance
 const productUpload = multer({
   storage: storage,
   fileFilter: fileFilter,
