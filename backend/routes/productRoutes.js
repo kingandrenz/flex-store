@@ -23,7 +23,7 @@ import checkId from "../middlewares/checkId.js";
 router
   .route("/")
   .get(fetchProducts)
-  .post(authenticate, authorizeAdmin, express.json(), addProduct);
+  .post(authenticate, authorizeAdmin, addProduct);
 
 router.route("/allproducts").get(fetchAllProducts);
 
@@ -38,7 +38,7 @@ router.get("/new", fetchNewProducts);
 router
   .route("/:id")
   .get(checkId, fetchProductById)
-  .put(authenticate, authorizeAdmin, express.json(), updateProductDetails)
+  .put(authenticate, authorizeAdmin, updateProductDetails)
   .delete(authenticate, authorizeAdmin, checkId, deleteProduct);
 
 router.route("/filtered-products").post(filteredProducts);
