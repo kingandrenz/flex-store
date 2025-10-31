@@ -13,7 +13,7 @@ const addProduct = asyncHandler(async (req, res) => {
       price,
       quantity,
       countInStock,
-    } = req.fields;
+    } = req.body;
 
     switch (true) {
       case !name:
