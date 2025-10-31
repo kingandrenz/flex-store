@@ -3,6 +3,13 @@ import Product from "../models/productModel.js";
 
 // @desc    Create a new product
 const addProduct = asyncHandler(async (req, res) => {
+  if (!req.body || Object.keys(req.body).length === 0) {
+    // Send a 400 error if the body is empty or missing
+    return res.status(400).json({
+      message:
+        "Request body is empty. Please ensure the Content-Type is 'application/json' and data is being sent.",
+    });
+  }
   try {
     const {
       name,
@@ -34,7 +41,7 @@ const addProduct = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "CountIn stock is required" });
     }
 
-    const product = new Product({ ...req.fields });
+    const product = new Product({ ...req.body });
 
     await product.save();
     res.status(201).json(product);
@@ -45,6 +52,14 @@ const addProduct = asyncHandler(async (req, res) => {
 });
 
 const updateProductDetails = asyncHandler(async (req, res) => {
+  if (!req.body || Object.keys(req.body).length === 0) {
+    // Send a 400 error if the body is empty or missing
+    return res.status(400).json({
+      message:
+        "Request body is empty. Please ensure the Content-Type is 'application/json' and data is being sent.",
+    });
+  }
+
   try {
     const { id } = req.params;
     const {
@@ -79,7 +94,7 @@ const updateProductDetails = asyncHandler(async (req, res) => {
 
     const product = await Product.findByIdAndUpdate(
       id,
-      { ...req.fields },
+      { ...req.body },
       { new: true }
     );
     if (!product) {
