@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import express from "express";
 import cors from "cors";
+import { fileURLToPath } from "url"; // <-- NEW: Required for ES Modules
 
 // utils
 import connectDB from "./config/db.js";
@@ -49,18 +50,30 @@ app.use("/api/config/paypal", (req, res) => {
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
 });
 
-// REMOVED: Local static file serving for '/uploads'
-
 app.get("/", (req, res) => {
   res.send("Hello flex-store");
 });
+
+// ------------------------------------------------------------------
+// ⭐ FIX: Static File Serving for '/uploads'
+// This maps the public URL path /uploads to the local 'uploads' directory
+// ------------------------------------------------------------------
+
+// Define __dirname equivalent for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Set up the static file serving middleware
+const uploadPath = path.join(__dirname, "uploads");
+app.use("/uploads", express.static(uploadPath));
+
+// ------------------------------------------------------------------
 
 // Error Handler must be placed LAST
 app.use(errorHandler);
 
 // Start server
 app.listen(port, () => console.log(`Server running on port: ${port}`));
-
 // // Ensure everything is in this order
 // import path from "path";
 // import dotenv from "dotenv";
