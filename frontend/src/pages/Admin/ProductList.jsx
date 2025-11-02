@@ -45,18 +45,18 @@ function ProductList() {
             };
             
             // Redux Toolkit Query handles JSON serialization
-            const {data} = await createProduct(productData);
-            
-            if (data.error) {
-                toast.error("Product creation failed! Try again")
-            } else {
-                toast.success(`${data.name} is created`)
-                navigate('/')
+            const { data, error } = await createProduct(productData);
+
+            if (error) {
+            toast.error(error?.data?.message || "Product creation failed!");
+            } else if (data) {
+            toast.success(`${data.name} created successfully`);
+            navigate('/');
             }
+
         } catch (error) {
-            console.error(error);
-            // Updated error toast to handle the common structure of RTK Query errors
-            toast.error(error?.data?.message || "Product creation failed! Try again")
+            console.error("Add Product Error:", error.message);
+            toast.error(error.message || "Server error while adding product");
         }
     }
 

@@ -41,6 +41,8 @@ const addProduct = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "CountIn stock is required" });
     }
 
+    console.log("Incoming body:", req.body);
+
     const product = new Product({ ...req.body });
 
     await product.save();
