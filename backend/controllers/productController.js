@@ -106,7 +106,6 @@ const updateProductDetails = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    await product.save();
     res.status(200).json(product);
   } catch (error) {
     console.error(error);

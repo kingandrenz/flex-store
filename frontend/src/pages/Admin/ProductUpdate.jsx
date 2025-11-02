@@ -48,31 +48,31 @@ function ProductUpdate() {
 
     const handleSubmit = async (e) => {
             e.preventDefault();
-    
+
+            const updatedProduct = {
+                name,
+                image,
+                brand,
+                category,
+                description,
+                price,
+                quantity,
+                countInStock,
+            };
+
             try {
-                const formData = new FormData()
-                formData.append('image', image)
-                formData.append('name', name)
-                formData.append('description', description)
-                formData.append('price', price)
-                formData.append('category', category)
-                formData.append('quantity', quantity)
-                formData.append('brand', brand)
-                formData.append('countInStock', countInStock)
-               
-                const {data} = await updateProduct({productId: params._id, formData});
-                console.log("params: ", params)
-                if (data.error) {
-                    toast.error(data.error)
-                } else {
-                    toast.success(`product successfully updated`)
-                    navigate('/admin/allproductslist') // remeber to change it to /shop
-                }
+                const res = await updateProduct({
+                productId: params._id,
+                updatedProduct,
+                }).unwrap();
+
+                toast.success("✅ Product successfully updated!");
+                navigate("/admin/allproductslist");
             } catch (error) {
-                console.error(error);
-                toast.error("product update failed! Try again")
-                
+                console.error("❌ Update failed:", error);
+                toast.error(error?.data?.message || "Product update failed!");
             }
+
         }
 
 
