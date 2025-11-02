@@ -11,17 +11,19 @@ const uploadSingle = productUpload.single("image");
 router.post("/", (req, res) => {
   uploadSingle(req, res, (err) => {
     if (err) {
-      return res.status(400).send({ message: err.message || err });
+      return res.status(400).json({ message: err.message || err });
     }
 
     if (!req.file) {
-      return res.status(400).send({ message: "No file selected" });
+      return res.status(400).json({ message: "No file selected" });
     }
 
-    // req.file.path contains the permanent Cloudinary URL
-    res.status(200).send({
-      message: "File uploaded successfully to Cloudinary",
-      image: req.file.path,
+    // req.file.path contains the Cloudinary-hosted image URL
+    res.status(200).json({
+      success: true,
+      message: "File uploaded successfully",
+      imageUrl: req.file.path, // ✅ standardized field name
+      public_id: req.file.filename, // optional: Cloudinary ID
     });
   });
 });

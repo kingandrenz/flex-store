@@ -71,8 +71,8 @@ function ProductList() {
             const res = await uploadProductImage(formData).unwrap()
             toast.success(res.message);
             
-            setImage(res.image); 
-            setImageUrl(res.image);
+            setImage(res.imageUrl); 
+            setImageUrl(res.imageUrl);
             
             // Fix: Reset the input value 
             e.target.value = null; 
