@@ -39,7 +39,8 @@ function ProductUpdate() {
         try {
             const res = await uploadProductImage(formData).unwrap()
             toast.success(res.message);
-            setImage(res.image);
+
+            setImage(res.imageUrl || res.image);
         } catch (error) {
             toast.error(error?.data.message || error.error)
         }
