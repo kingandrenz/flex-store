@@ -48,8 +48,11 @@ const addProduct = asyncHandler(async (req, res) => {
     await product.save();
     res.status(201).json(product);
   } catch (error) {
-    console.error(error);
-    res.status(400);
+    console.error("❌ Add Product Error:", error.message);
+    console.error(error.stack);
+    res.status(500).json({
+      message: error.message || "Server error while adding product",
+    });
   }
 });
 
