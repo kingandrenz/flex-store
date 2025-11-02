@@ -41,6 +41,7 @@ function ProductUpdate() {
             toast.success(res.message);
 
             setImage(res.imageUrl || res.image);
+            console.log("Uploaded image URL:", res.imageUrl || res.image);
         } catch (error) {
             toast.error(error?.data.message || error.error)
         }
