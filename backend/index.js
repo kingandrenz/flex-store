@@ -21,6 +21,8 @@ connectDB();
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 // CORS Configuration
 const allowedOrigins = [
   "https://3flexstore.netlify.app",
