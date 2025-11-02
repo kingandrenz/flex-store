@@ -49,6 +49,11 @@ function ProductUpdate() {
     const handleSubmit = async (e) => {
             e.preventDefault();
 
+            if (!image || !image.startsWith("http")) {
+                toast.error("Please upload a product image before updating!");
+                return;
+            }
+
             const updatedProduct = {
                 name,
                 image,
@@ -122,16 +127,20 @@ function ProductUpdate() {
                 <div className="mb-3">
                     <label className="border text-black px-4 block w-full text-center
                     rounded-lg cursor-pointer font-bold py-11">
-                        {image ? image.name : "upload Image"}
-
+                        {image && image.startsWith("http")
+                        ? "✅ Image uploaded successfully"
+                        : "Upload Image"
+                        }
+                        
                         <input
-                            type="file"
-                            name="image"
-                            accept="image/*"
-                            onChange={uploadFileHandler}
-                            className={!image ? "hidden" : 'text-black'}
-                         />
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        onChange={uploadFileHandler}
+                        className="hidden"
+                        />
                     </label>
+
                 </div>
 
                 <div className="p-3">
