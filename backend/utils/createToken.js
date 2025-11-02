@@ -4,11 +4,11 @@ const generateToken = (res, userId) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
-  // Set JWT as an HTTP-only cookie
+
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV !== "development",
-    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production", // only secure in production
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // ✅ allow cross-site cookies
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 
@@ -16,3 +16,22 @@ const generateToken = (res, userId) => {
 };
 
 export default generateToken;
+
+// import jwt from "jsonwebtoken";
+
+// const generateToken = (res, userId) => {
+//   const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+//     expiresIn: "30d",
+//   });
+//   // Set JWT as an HTTP-only cookie
+//   res.cookie("token", token, {
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV !== "development",
+//     sameSite: "strict",
+//     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+//   });
+
+//   return token;
+// };
+
+// export default generateToken;
